@@ -7,20 +7,21 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  @@map(name: "user")
-  id Int @default(autoincrement()) @id
-  username String @db.VarChar(255) @unique
-  posts Post[]
+model Organisation {
+  @@map(name: "organisation")
+  id String @id @default(uuid())
+  name String @db.VarChar(255)
+  created_at DateTime @default(now())
+  departments Department[]
 }
 
-model Post {
-  @@map(name: "post")
-  id Int @id @default(autoincrement())
-  title String @db.VarChar(255)
-  post String @db.VarChar(500)
+model Department {
+  @@map(name: "department")
+  id String @id @default(uuid())
+  name String @db.VarChar(255)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  user User @relation(fields: [user_id], references: [id])
-  user_id Int
+
+  organisation Organisation @relation(fields: [organisation_id], references: [id])
+  organisation_id String
 }
