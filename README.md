@@ -1,3 +1,8 @@
-# timelapse
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
-Maybe i'll actually finish something 
+# Absence Recording for everyone.
+
+The open source Timetastic alternative. You are in charge of your own data, workflow, security and appearance.
+
+TBC...
