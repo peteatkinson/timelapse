@@ -1,14 +1,40 @@
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  @@map(name: "user")
-  id Int @default(autoincrement()) @id
-  username String @db.VarChar(255) @unique
+model Organisation {
+  id          String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String       @db.VarChar(255)
+  created_at  DateTime     @default(now())
+  departments Department[]
+  leaveTypes  LeaveType[]
+
+  @@map(name: "organisation")
+}
+
+model Department {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @map("organisation_id") @db.Uuid
+  @@map(name: "department")
+}
+
+model LeaveType {
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @map("organisation_id") @db.Uuid
+  @@map(name: "leave_type")
 }
