@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
 
 generator client {
@@ -8,32 +8,33 @@ generator client {
 }
 
 model Organisation {
-  @@map(name: "organisation")
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @db.VarChar(255)
-  created_at DateTime @default(now())
+  id          String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String       @db.VarChar(255)
+  created_at  DateTime     @default(now())
   departments Department[]
-  leaveTypes LeaveType[]
+  leaveTypes  LeaveType[]
+
+  @@map(name: "organisation")
 }
 
 model Department {
-  @@map(name: "department")
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @db.VarChar(255)
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  organisation Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String @map("organisation_id") @db.Uuid
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @map("organisation_id") @db.Uuid
+  @@map(name: "department")
 }
 
 model LeaveType {
-  @@map(name: "leave_type")
-  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name String @db.VarChar(255)
+  id        String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name      String   @db.VarChar(255)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
-  organisation Organisation @relation(fields: [organisationId], references: [id])
-  organisationId String @map("organisation_id") @db.Uuid
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @map("organisation_id") @db.Uuid
+  @@map(name: "leave_type")
 }
