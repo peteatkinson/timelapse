@@ -9,19 +9,31 @@ generator client {
 
 model Organisation {
   @@map(name: "organisation")
-  id String @id @default(uuid())
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name String @db.VarChar(255)
   created_at DateTime @default(now())
   departments Department[]
+  leaveTypes LeaveType[]
 }
 
 model Department {
   @@map(name: "department")
-  id String @id @default(uuid())
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   name String @db.VarChar(255)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
-  organisation Organisation @relation(fields: [organisation_id], references: [id])
-  organisation_id String
+  organisation Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String @map("organisation_id") @db.Uuid
+}
+
+model LeaveType {
+  @@map(name: "leave_type")
+  id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name String @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  organisation Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String @map("organisation_id") @db.Uuid
 }
