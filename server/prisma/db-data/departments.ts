@@ -13,11 +13,11 @@ let departmentData = [];
 organisationData.forEach((o) => {
   const organisationId = o.id;
   departmentData.push(
-    departmentNames.map((d) => {
+    departmentNames.map((departmentName) => {
       return {
         id: uuidv4(),
         organisationId: organisationId,
-        name: d,
+        name: departmentName,
         createdAt: new Date().toISOString(),
       };
     }),
