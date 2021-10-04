@@ -27,6 +27,8 @@ model Department {
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
 
+  members Membership[]
+
   @@map(name: "department")
 }
 
@@ -38,6 +40,7 @@ model LeaveType {
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
+  
   @@map(name: "leave_type")
 }
 
@@ -48,6 +51,17 @@ model User {
   email          String?      @unique
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
+  membership     Membership[]
 
   @@map("user")
+}
+
+model Membership {
+  departmentId String     @db.Uuid
+  userId       String     @db.Uuid
+  department   Department @relation(fields: [departmentId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@id([userId, departmentId])
 }
