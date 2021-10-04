@@ -13,8 +13,9 @@ model Organisation {
   created_at  DateTime     @default(now())
   departments Department[]
   leaveTypes  LeaveType[]
+  users       User[]
 
-  @@map(name: "organisation")
+  @@map("organisations")
 }
 
 model Department {
@@ -25,7 +26,10 @@ model Department {
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
-  @@map(name: "department")
+
+  members Membership[]
+
+  @@map("departments")
 }
 
 model LeaveType {
@@ -36,5 +40,29 @@ model LeaveType {
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
-  @@map(name: "leave_type")
+
+  @@map(name: "leave_types")
+}
+
+model User {
+  id             String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  userName       String?      @unique @map("user_name")
+  name           String?
+  email          String?      @unique
+  organisation   Organisation @relation(fields: [organisationId], references: [id])
+  organisationId String       @map("organisation_id") @db.Uuid
+  membership     Membership[]
+
+  @@map("users")
+}
+
+model Membership {
+  departmentId String     @db.Uuid
+  userId       String     @db.Uuid
+  department   Department @relation(fields: [departmentId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
+  createdAt    DateTime   @default(now()) @map("created_at")
+
+  @@id([userId, departmentId])
+  @@map("memberships")
 }
