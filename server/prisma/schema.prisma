@@ -15,7 +15,7 @@ model Organisation {
   leaveTypes  LeaveType[]
   users       User[]
 
-  @@map(name: "organisation")
+  @@map("organisations")
 }
 
 model Department {
@@ -29,7 +29,7 @@ model Department {
 
   members Membership[]
 
-  @@map(name: "department")
+  @@map("departments")
 }
 
 model LeaveType {
@@ -40,8 +40,8 @@ model LeaveType {
 
   organisation   Organisation @relation(fields: [organisationId], references: [id])
   organisationId String       @map("organisation_id") @db.Uuid
-  
-  @@map(name: "leave_type")
+
+  @@map(name: "leave_types")
 }
 
 model User {
@@ -53,7 +53,7 @@ model User {
   organisationId String       @map("organisation_id") @db.Uuid
   membership     Membership[]
 
-  @@map("user")
+  @@map("users")
 }
 
 model Membership {
@@ -64,4 +64,5 @@ model Membership {
   createdAt    DateTime   @default(now()) @map("created_at")
 
   @@id([userId, departmentId])
+  @@map("memberships")
 }
