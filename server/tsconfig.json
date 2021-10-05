@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2019",
+    "target": "es2021",
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
@@ -28,6 +28,7 @@
   },
   "include": [
     "src",
+    "prisma",
     "__tests__/**/*"
   ]
 }

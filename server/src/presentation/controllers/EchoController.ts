@@ -1,18 +1,12 @@
+import { DepartmentRepository } from '@/domain/repositories/department';
 import { HttpResponse, Controller } from '@/presentation/protocols'
 
 import { PrismaClient } from '@prisma/client';
 
 export class EchoController implements Controller {
-  async handle (text: string): Promise<HttpResponse> {
-
-    const { department } = new PrismaClient()
-    const departments = await department.findMany({
-      where: {
-        organisationId: {
-          equals: '00d9f061-e243-4721-b174-7e0bd577cf14'
-        }
-      }
-    })
+  async handle (id: string): Promise<HttpResponse> {
+    const departmentRepository = new DepartmentRepository();
+    const departments = await departmentRepository.loadDepartments('67877aab-e235-431a-b960-8da259414d0c');
 
     return {
       statusCode: 200,

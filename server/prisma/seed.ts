@@ -1,4 +1,4 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -11,7 +11,7 @@ async function main() {
 
 async function addOrganisationData() {
   console.log("Seeding Organisation table with test data...");
-  for(let organisation of organisationData) {
+  for(const organisation of organisationData) {
     const existingOrganisation = await prisma.organisation.findFirst({where: {
       id: {
         equals: organisation.id
@@ -27,7 +27,7 @@ async function addOrganisationData() {
 async function addDepartmentData() {
   console.log("Seeding Departmnet table with test data...");
   
-  for(let department of departmentData) {
+  for(const department of departmentData) {
     const existingDepartment = await prisma.department.findFirst({where: {
       id: {
         equals: department.id
