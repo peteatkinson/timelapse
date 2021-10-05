@@ -3,14 +3,23 @@ import { HttpResponse, Controller } from '@/presentation/protocols'
 
 import { PrismaClient } from '@prisma/client';
 
-export class EchoController implements Controller {
-  async handle (id: string): Promise<HttpResponse> {
+export class EchoController implements Controller<EchoController.Request> {
+  async handle (request: EchoController.Request): Promise<HttpResponse> {
+    const { organisationId } = request;
+
     const departmentRepository = new DepartmentRepository();
-    const departments = await departmentRepository.loadDepartments('67877aab-e235-431a-b960-8da259414d0c');
+    const departments = await departmentRepository.loadDepartments(organisationId);
 
     return {
       statusCode: 200,
       body: departments
     }
+  }
+}
+
+
+export namespace EchoController {
+  export type Request = {
+    organisationId: string
   }
 }
