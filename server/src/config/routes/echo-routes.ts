@@ -3,5 +3,5 @@ import { adaptRoute } from '@/adapters/express-routes'
 import { makeEchoController } from '@/factories/controllers'
 
 export default (router: Router): void => {
-  router.get('/echo/:text', adaptRoute(makeEchoController()))
+  router.get('/echo/:id', adaptRoute(makeEchoController()))
 }

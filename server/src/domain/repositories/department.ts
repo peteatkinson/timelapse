@@ -1,10 +1,11 @@
 import { Department } from '.prisma/client';
-import prisma from '@/lib/prisma';
+import { PrismaClient } from "@prisma/client";
 import { equal } from 'assert';
 
 export class DepartmentRepository {
   async loadDepartment(id: string): Promise<Department> {
-    return await prisma.department.findFirst({
+    const { department } = new PrismaClient();
+    return await department.findFirst({
       where: {
         id: {
           equals: id,
@@ -14,7 +15,8 @@ export class DepartmentRepository {
   }
 
   async loadDepartments(organisationId: string): Promise<Department[]> {
-    return await prisma.department.findMany({
+    const { department } = new PrismaClient(); 
+    return await department.findMany({
       where: {
         organisationId: {
           equals: organisationId,
@@ -23,7 +25,8 @@ export class DepartmentRepository {
     });
   }
 
-  async createDepartment(department: Department): Promise<Department> {
-    return await prisma.department.create({ data: department });
+  async createDepartment(data: Department): Promise<Department> {
+    const { department } = new PrismaClient(); 
+    return await department.create({ data: data });
   }
 }
