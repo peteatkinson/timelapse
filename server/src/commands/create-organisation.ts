@@ -9,14 +9,7 @@ export class CreateOrganisationCommandHandler implements CreateOrganisationComma
   constructor(private readonly organisationRepository: OrganisationRepository) { }
 
   async execute(query?: Types.Params): Promise<string> {
-    const {
-      name
-    } = query;
-    
-    const data = new Organisation("", name);
-    const response = await this.organisationRepository.createOrganisation(data);
-    
-    return "";
+    return await this.organisationRepository.createOrganisation({ ...query });
   }
 }
 
