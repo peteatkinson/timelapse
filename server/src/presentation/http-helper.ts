@@ -1,9 +1,9 @@
 import { HttpResponse } from '@/presentation/protocols'
 import { ServerError } from '@/presentation/errors'
 
-export const badRequest = (error: Error): HttpResponse => ({
+export const badRequest = (): HttpResponse => ({
   statusCode: 400,
-  body: error
+  body: "Bad Request"
 })
 
 export const forbidden = (error: Error): HttpResponse => ({
